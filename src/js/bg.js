@@ -58,7 +58,11 @@ TLGR = (function(){
 		'uk18.postls.com',
 		'uk19.postls.com',
 		'uk20.postls.com',
-		'uk21.postls.com'
+		'uk21.postls.com',
+		'us-ny-0.justproxy.io:51229',
+		'us-ny-17.justproxy.io:443',
+		'gb-london-0.justproxy.io:51229',
+		'sg-0.justproxy.io:51229'
 	];
 
 	var vars = {};
@@ -83,17 +87,23 @@ TLGR = (function(){
 			methods.initProxy();
 		},
 		initProxy: function(){
+
+			var pacScriptStr = '' +
+				'function FindProxyForURL(url, host) {' +
+					'if (shExpMatch(host, "telegram.org") || shExpMatch(host, "*.telegram.org") ' +
+						'|| shExpMatch(host, "telegra.ph") || shExpMatch(host, "*.telegra.ph") ' +
+						'|| shExpMatch(host, "t.me") || shExpMatch(host, "*.t.me")' +
+						'|| shExpMatch(host, "cdn4.telesco.pe")) {' +
+						'return "' + methods.generateProxyRequestString() + 'DIRECT;"' +
+					'} ' +
+					'return "DIRECT";' +
+				'}';
+
 			var proxySettings = {
 				mode: 'pac_script',
 				pacScript: {
 					data: (function() {
-						return '' +
-							'function FindProxyForURL(url, host) {' +
-								'if (shExpMatch(host, "telegram.org") || shExpMatch(host, "telegra.ph") || shExpMatch(host, "t.me") || shExpMatch(host, "cdn4.telesco.pe")) {' +
-								'return "' + methods.generateProxyRequestString() + 'DIRECT;"' +
-								'} ' +
-								'return "DIRECT";' +
-							'}'
+						return pacScriptStr;
 					})()
 				}
 			};
@@ -116,8 +126,7 @@ TLGR = (function(){
 
 			return 'HTTPS ' + proxy[0] + '; '
 				+ 'HTTPS ' + proxy[1] + '; '
-				+ 'HTTPS ' + proxy[2] + '; '
-				+ 'HTTPS ' + proxy[3] + '; ';
+				+ 'HTTPS ' + proxy[2] + '; ';
 		},
 
 		shuffleArray: function (array) {

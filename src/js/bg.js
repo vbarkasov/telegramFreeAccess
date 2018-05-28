@@ -92,6 +92,7 @@ TLGR = (function(){
 				'function FindProxyForURL(url, host) {' +
 					'if (shExpMatch(host, "telegram.org") || shExpMatch(host, "*.telegram.org") ' +
 						'|| shExpMatch(host, "telegra.ph") || shExpMatch(host, "*.telegra.ph") ' +
+						'|| shExpMatch(host, "telegram.me") || shExpMatch(host, "*.telegram.me") ' +
 						'|| shExpMatch(host, "t.me") || shExpMatch(host, "*.t.me")' +
 						'|| shExpMatch(host, "cdn4.telesco.pe")) {' +
 						'return "' + methods.generateProxyRequestString() + 'DIRECT;"' +
